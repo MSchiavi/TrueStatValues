@@ -93,13 +93,11 @@ function tsv:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("TSV_DB", defaults)
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("TSV_Bliz",options);
 	self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("TSV_Bliz", "True Stat Values");
-    
-    local tooltipEvents = {
-        "OnTooltipSetSpell",
-        "OnTooltipSetItem",
+
+	local tooltipEvents = {
         "OnShow"
     };
-	
+
 	C_Timer.After(0.2,function()
 		for k,v in ipairs(tooltipEvents) do
 			GameTooltip:HookScript(v,function(tooltip,...)
@@ -110,6 +108,21 @@ function tsv:OnInitialize()
 end
 
 
+
+local function OnTooltipSetItem(tooltip, data)
+    if tooltip == GameTooltip then
+		tsv:OnTooltip("OnTooltipSetItem", tooltip)
+    end
+end
+
+local function OnTooltipSetSpell(tooltip, data)
+    if tooltip == GameTooltip then
+		tsv:OnTooltip("OnTooltipSetSpell",tooltip)
+    end
+end
+
+TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnTooltipSetItem)
+TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnTooltipSetSpell)
 
 addon.SegmentLabels = SegmentLabels;
 addon.tsv = tsv;
