@@ -1,0 +1,14 @@
+## Interface: 90002
+## Title: True Stat Values
+## Author: Bastas#6681 (discord)
+## Version: 1.0.0
+## Notes: Show Secondary-Stat Diminishing Returns in Tooltips.
+## DefaultState: Enabled
+## SavedVariables: TSV_DB 
+
+embeds.xml
+
+Core.lua
+TrueStatValues.lua
+Tooltips.lua
+Events.lua
