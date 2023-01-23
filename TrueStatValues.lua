@@ -155,7 +155,6 @@ function addon.tsv:GetStatDiminishBracket(statId,amount)
     for i,bracket in ipairs(self.StatBrackets) do
         if ( percent < bracket.size ) then
             bracket_rating = math.floor(0.5+percent * conversionFactor);
-            print(0.5+bracket.size * conversionFactor)
             bracket_max_rating = math.floor(0.5+bracket.size * conversionFactor);
             bracket_penalty = bracket.penalty;
             bracket_next_penalty = self.StatBrackets[i+1] and self.StatBrackets[i+1].penalty or 1;
