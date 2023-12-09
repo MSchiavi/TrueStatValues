@@ -192,8 +192,9 @@ function addon.tsv:RecalculateTrueStatRatings()
     end
 end
 
-function addon.tsv:GetTrueStatRatingAdded(statId,amount)
-    local amount = tonumber(amount);
+function addon.tsv:GetTrueStatRatingAdded(statId,amountStr)
+    local amountStr = amountStr:gsub(",",""); --numbers are big enough to have commas now
+    local amount = tonumber(amountStr);
     local currentTrueRating = addon.TrueStatInfo[statId].trueRating;
     local addedTrueRating = self:GetStatDiminishBracket(statId,amount);
     local diff = addedTrueRating - currentTrueRating;
