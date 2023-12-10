@@ -54,6 +54,7 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
                     if (statEventMap[statId] == ev) then
                         local label = labelGenerator();
                         if (label) then
+                            label = label:gsub("%-", "%%-")
                             local s, e = text:find(label)
                             if (s and s <= 11) then
                                 self:AddTrueStatValuesTooltip(tooltip, statId);
@@ -104,7 +105,7 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
 end
 
 function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
-    local statInfo = addon.TrueStatInfo[statId];
+    local statInfo = addon.TrueStatInfo[statId]; 
     local pctLabel = (statInfo.bracketPenalty > 0) and ("-" .. tostring(statInfo.bracketPenalty * 100) .. "%") or ("0%");
     local barLabel =
         tostring(statInfo.bracketRating) .. "/" .. tostring(statInfo.bracketMaxRating) .. " [" .. pctLabel ..
