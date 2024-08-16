@@ -3,7 +3,7 @@ local name, addon = ...;
 
 --[[----------------------------------------------------------------------------
 	Stat conversion factors (data taken from simc)
-	https:--https:--github.com/simulationcraft/simc/blob/dragonflight/engine/dbc/generated/sc_scale_data.inc
+	https:--https://github.com/simulationcraft/simc/blob/dragonflight/engine/dbc/generated/sc_scale_data.inc
 ------------------------------------------------------------------------------]]
 local hst_cnv =   {
     2.948095354,	2.948095354,	2.948095354,	2.948095354,	2.948095354,	--    5
@@ -163,7 +163,7 @@ local statIdMap = {
 
 
 --[[
-    https:--www.wowhead.com/news=318435/update-on-diminishing-returns-for-secondary-stats-in-shadowlands-new-thresholds-
+    https://www.wowhead.com/news=318435/update-on-diminishing-returns-for-secondary-stats-in-shadowlands-new-thresholds-
 
     From 0 to 30%, there's no penalty.
     From 30% to 39%, there's a 10% penalty.
