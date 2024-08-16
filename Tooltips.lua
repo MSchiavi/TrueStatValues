@@ -27,21 +27,36 @@ local statLabelMap = {
     end,
     [CR_HASTE_SPELL] = function()
         return format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE)
-    end
+    end,
+    [CR_LIFESTEAL] = function()
+		return format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_LIFESTEAL)
+	end,
+	[CR_AVOIDANCE] = function()
+		return format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_AVOIDANCE)
+	end,
+	[CR_SPEED] = function()
+		return format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_SPEED)
+	end
 }
 
 local statEventMap = {
     [CR_MASTERY] = "OnTooltipSetSpell",
     [CR_CRIT_SPELL] = "OnShow",
     [CR_VERSATILITY_DAMAGE_DONE] = "OnShow",
-    [CR_HASTE_SPELL] = "OnShow"
+    [CR_HASTE_SPELL] = "OnShow",
+    [CR_LIFESTEAL] = "OnShow",
+	[CR_AVOIDANCE] = "OnShow",
+	[CR_SPEED] = "OnShow"
 }
 
 local patterns = {
     [CR_MASTERY] = "%s([,0-9]+) " .. STAT_MASTERY,
     [CR_CRIT_SPELL] = "%s([,0-9]+) " .. STAT_CRITICAL_STRIKE,
     [CR_VERSATILITY_DAMAGE_DONE] = "%s([,0-9]+) " .. STAT_VERSATILITY,
-    [CR_HASTE_SPELL] = "%s([,0-9]+) " .. STAT_HASTE
+    [CR_HASTE_SPELL] = "%s([,0-9]+) " .. STAT_HASTE,
+    [CR_LIFESTEAL] = "%s([,0-9]+) " .. STAT_LIFESTEAL,
+	[CR_AVOIDANCE] = "%s([,0-9]+) " .. STAT_AVOIDANCE,
+	[CR_SPEED] = "%s([,0-9]+) " .. STAT_SPEED
 }
 
 function addon.tsv:OnTooltip(ev, tooltip, ...)
