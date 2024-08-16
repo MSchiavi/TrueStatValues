@@ -163,7 +163,7 @@ local statIdMap = {
 
 
 --[[
-    https:--www.wowhead.com/news=318435/update-on-diminishing-returns-for-secondary-stats-in-shadowlands-new-thresholds-
+    https://www.wowhead.com/news=318435/update-on-diminishing-returns-for-secondary-stats-in-shadowlands-new-thresholds-
 
     From 0 to 30%, there's no penalty.
     From 30% to 39%, there's a 10% penalty.
