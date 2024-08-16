@@ -5,6 +5,7 @@
 ## Notes: Show Secondary-Stat Diminishing Returns in Tooltips.
 ## DefaultState: Enabled
 ## SavedVariables: TSV_DB 
+## IconTexture: Interface\Addons\TrueStatvalues\TrueStatvalues
 
 embeds.xml
 
