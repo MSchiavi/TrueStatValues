@@ -3,7 +3,7 @@ local name, addon = ...;
 
 --[[----------------------------------------------------------------------------
 	Stat conversion factors (data taken from simc)
-	https:--https:--github.com/simulationcraft/simc/blob/dragonflight/engine/dbc/generated/sc_scale_data.inc
+	https:--https://github.com/simulationcraft/simc/blob/dragonflight/engine/dbc/generated/sc_scale_data.inc
 ------------------------------------------------------------------------------]]
 local hst_cnv =   {
     2.948095354,	2.948095354,	2.948095354,	2.948095354,	2.948095354,	--    5
