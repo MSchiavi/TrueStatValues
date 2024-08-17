@@ -1,7 +1,7 @@
 ## Interface: 90002
 ## Title: True Stat Values
-## Author: .bastas (discord), tirain (discord)
-## Version: 1.4.0
+## Author: .bastas (discord), tirain (discord), hinalover (discord)
+## Version: 1.4.1
 ## Notes: Show Secondary-Stat Diminishing Returns in Tooltips.
 ## DefaultState: Enabled
 ## SavedVariables: TSV_DB 
