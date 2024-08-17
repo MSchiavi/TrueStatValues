@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 110002
 ## Title: True Stat Values
 ## Author: .bastas (discord), tirain (discord), hinalover (discord)
 ## Version: 1.4.2
