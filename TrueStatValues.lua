@@ -205,7 +205,7 @@ https://raw.githubusercontent.com/simulationcraft/simc/thewarwithin/engine/dbc/g
   { 21025,  5,   25.00000f,   19.00000f,    0.00000f,    0.00000f },
   { 21025,  6,  100.00000f,   49.00000f,    0.00000f,    0.00000f },
 ]]
-addon.tsv.TertiaryStatBrackets = {
+addon.tsv.TertStatBrackets = {
     {["size"]=10,["penalty"]=0},
     {["size"]=5,["penalty"]=0.2},
     {["size"]=5,["penalty"]=0.4},
@@ -213,7 +213,7 @@ addon.tsv.TertiaryStatBrackets = {
     {["size"]=100000,["penalty"]=1.0},
 };
 
---penatly is the % penalty currently
+--penalty is the % penalty currently
 --trueRating is how much stat you effectively have after accounting for diminishes
 --bracketRating is how far into the current bracket you are.
 --bracketMaxRating is the total rating in your current bracket
