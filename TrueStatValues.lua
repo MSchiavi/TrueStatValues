@@ -173,24 +173,45 @@ local statIdMap = {
     From 66% to 126%, there's a 50% penalty.
     You can't get more than 126% from gear rating.
 ]]
+--[[
+Secondary Stats get their scaling from id 21024
+https://raw.githubusercontent.com/simulationcraft/simc/thewarwithin/engine/dbc/generated/item_scaling.inc
+  { 21024,  0,    0.00000f,    0.00000f,    0.00000f,    0.00000f },
+  { 21024,  1,   30.00000f,   30.00000f,    0.00000f,    0.00000f },
+  { 21024,  2,   40.00000f,   39.00000f,    0.00000f,    0.00000f },
+  { 21024,  3,   50.00000f,   47.00000f,    0.00000f,    0.00000f },
+  { 21024,  4,   60.00000f,   54.00000f,    0.00000f,    0.00000f },
+  { 21024,  5,   80.00000f,   66.00000f,    0.00000f,    0.00000f },
+  { 21024,  6,  100.00000f,   76.00000f,    0.00000f,    0.00000f },
+  { 21024,  7,  200.00000f,  126.00000f,    0.00000f,    0.00000f },
+]]
 addon.tsv.StatBrackets = {
     {["size"]=30,["penalty"]=0},
-    {["size"]=9,["penalty"]=0.1},
-    {["size"]=8,["penalty"]=0.2},
-    {["size"]=7,["penalty"]=0.3},
-    {["size"]=12,["penalty"]=0.4},
-    {["size"]=60,["penalty"]=0.5},
-    {["size"]=60,["penalty"]=1.0},
+    {["size"]=10,["penalty"]=0.1},
+    {["size"]=10,["penalty"]=0.2},
+    {["size"]=10,["penalty"]=0.3},
+    {["size"]=20,["penalty"]=0.4},
+    {["size"]=120,["penalty"]=0.5},
     {["size"]=100000,["penalty"]=1.0},
-}
-
-addon.tsv.TertStatBrackets = {
+};
+--[[
+Tertiary Stats get their scaling from id 21025
+https://raw.githubusercontent.com/simulationcraft/simc/thewarwithin/engine/dbc/generated/item_scaling.inc
+  { 21025,  0,    0.00000f,    0.00000f,    0.00000f,    0.00000f },
+  { 21025,  1,    0.50000f,    0.50000f,    0.00000f,    0.00000f },
+  { 21025,  2,   10.00000f,   10.00000f,    0.00000f,    0.00000f },
+  { 21025,  3,   15.00000f,   14.00000f,    0.00000f,    0.00000f },
+  { 21025,  4,   20.00000f,   17.00000f,    0.00000f,    0.00000f },
+  { 21025,  5,   25.00000f,   19.00000f,    0.00000f,    0.00000f },
+  { 21025,  6,  100.00000f,   49.00000f,    0.00000f,    0.00000f },
+]]
+addon.tsv.TertiaryStatBrackets = {
     {["size"]=10,["penalty"]=0},
     {["size"]=5,["penalty"]=0.2},
     {["size"]=5,["penalty"]=0.4},
-    {["size"]=29,["penalty"]=0.6},
+    {["size"]=80,["penalty"]=0.6},
     {["size"]=100000,["penalty"]=1.0},
-}
+};
 
 --penatly is the % penalty currently
 --trueRating is how much stat you effectively have after accounting for diminishes
