@@ -59,12 +59,17 @@ local patterns = {
 	[CR_SPEED] = "%s([,0-9]+) " .. STAT_SPEED
 }
 
+local blackList = {
+    ["Leeching Poison"] = true,
+    ["Thief's Versatility"] = true,
+}
+
 function addon.tsv:OnTooltip(ev, tooltip, ...)
     if (addon.tsv.db.global.showStatTooltips) then
         local tt1 = GameTooltipTextLeft1
         if (tt1) then
             local text = tt1:GetText()
-            if (text) then
+            if (text and not blackList[text]) then
                 for statId, labelGenerator in pairs(statLabelMap) do
                     if (statEventMap[statId] == ev) then
                         local label = labelGenerator()
@@ -86,7 +91,6 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
         if (name ~= nil and link ~= nil) then
             local isEquipped = C_Item.IsEquippedItem(name)
             local itemString = select(3, string.find(link, "|H(.+)|h"))
-            -- print(GetItemInfo(link));
 
             for i = 1, 20, 1 do
                 local textleft = "GameTooltipTextLeft" .. tostring(i)
