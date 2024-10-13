@@ -6,6 +6,7 @@ local function RGBPercToHex(r, g, b)
     b = b <= 1 and b >= 0 and b or 0
     return string.format("%02x%02x%02x", r * 255, g * 255, b * 255)
 end
+local masteryName = nil;
 
 local statLabelMap = {
     [CR_MASTERY] = function()
@@ -14,6 +15,7 @@ local statLabelMap = {
             local masterySpell, masterySpell2 = GetSpecializationMasterySpells(primaryTalentTree)
             if (masterySpell) then
                 local name = C_Spell.GetSpellName(masterySpell)
+                masteryName = name;
                 return name
             end
         end
@@ -39,6 +41,12 @@ local statLabelMap = {
 	end
 }
 
+local extraStatLabelMap = {
+    [CR_MASTERY] = function()
+        return format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_MASTERY)
+    end
+}
+
 local statEventMap = {
     [CR_MASTERY] = "OnTooltipSetSpell",
     [CR_CRIT_SPELL] = "OnShow",
@@ -47,6 +55,12 @@ local statEventMap = {
     [CR_LIFESTEAL] = "OnShow",
 	[CR_AVOIDANCE] = "OnShow",
 	[CR_SPEED] = "OnShow"
+}
+-- added an extra statevent map and label generator 
+-- since mastery events are onShow then OnTooltipSetSpell
+-- so certain addons / weakauras that re display this data tend to break.
+local extraStatEventMap = {
+    [CR_MASTERY] = "OnShow"
 }
 
 local patterns = {
@@ -73,12 +87,11 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
                 for statId, labelGenerator in pairs(statLabelMap) do
                     if (statEventMap[statId] == ev) then
                         local label = labelGenerator()
-                        if (label) then
-                            label = label:gsub("%-", "%%-")
-                            local s, e = text:find(label)
-                            if (s and s <= 11) then
-                                self:AddTrueStatValuesTooltip(tooltip, statId)
-                            end
+                        self:HandleLabel(label, tooltip, statId, text)
+                    elseif (extraStatEventMap[statId] == ev) then
+                        if(statId == CR_MASTERY and text ~= masteryName) then
+                            local label = extraStatLabelMap[statId]();
+                            self:HandleLabel(label, tooltip, statId, text)
                         end
                     end
                 end
@@ -151,34 +164,12 @@ function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
     tooltip:Show()
 end
 
---[[
-	hooksecurefunc('PaperDollFrame_UpdateStats', function()
-		if IsAddOnLoaded('DejaCharacterStats') then return end
-
-		for _, Table in ipairs({_G.CharacterStatsPane.statsFramePool:EnumerateActive()}) do
-			if type(Table) == 'table' then
-				for statFrame in pairs(Table) do
-					ColorizeStatPane(statFrame)
-					if statFrame.Background:IsShown() then
-						statFrame.leftGrad:Show()
-						statFrame.rightGrad:Show()
-					else
-						statFrame.leftGrad:Hide()
-						statFrame.rightGrad:Hide()
-					end
-				end
-			end
-		end
-	end)
-
-	function PaperDollFrame_SetLabelAndText(statFrame, label, text, isPercentage, numericValue)
-		if ( statFrame.Label ) then
-			statFrame.Label:SetText(format(STAT_FORMAT, label));
-		end
-		if ( isPercentage ) then
-			text = format("%d%%", numericValue + 0.5);
-		end
-		statFrame.Value:SetText(text);
-		statFrame.numericValue = numericValue;
-	end
-]]
+function addon.tsv:HandleLabel(label, tooltip, statId, text)
+    if (label) then
+        label = label:gsub("%-", "%%-")
+        local s, e = text:find(label)
+        if (s and s <= 11) then
+            self:AddTrueStatValuesTooltip(tooltip, statId)
+        end
+    end
+end
