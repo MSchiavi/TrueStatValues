@@ -56,7 +56,9 @@ local statEventMap = {
 	[CR_AVOIDANCE] = "OnShow",
 	[CR_SPEED] = "OnShow"
 }
-
+-- added an extra statevent map and label generator 
+-- since mastery events are onShow then OnTooltipSetSpell
+-- so certain addons / weakauras that re display this data tend to break.
 local extraStatEventMap = {
     [CR_MASTERY] = "OnShow"
 }
