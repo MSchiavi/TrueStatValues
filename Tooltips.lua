@@ -6,6 +6,7 @@ local function RGBPercToHex(r, g, b)
     b = b <= 1 and b >= 0 and b or 0
     return string.format("%02x%02x%02x", r * 255, g * 255, b * 255)
 end
+local masteryName = nil;
 
 local statLabelMap = {
     [CR_MASTERY] = function()
@@ -14,6 +15,7 @@ local statLabelMap = {
             local masterySpell, masterySpell2 = GetSpecializationMasterySpells(primaryTalentTree)
             if (masterySpell) then
                 local name = C_Spell.GetSpellName(masterySpell)
+                masteryName = name;
                 return name
             end
         end
@@ -83,21 +85,11 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
                 for statId, labelGenerator in pairs(statLabelMap) do
                     if (statEventMap[statId] == ev) then
                         local label = labelGenerator()
-                        if (label) then
-                            label = label:gsub("%-", "%%-")
-                            local s, e = text:find(label)
-                            if (s and s <= 11) then
-                                self:AddTrueStatValuesTooltip(tooltip, statId)
-                            end
-                        end
+                        self:HandleLabel(label, tooltip, statId, text)
                     elseif (extraStatEventMap[statId] == ev) then
-                        local label = extraStatLabelMap[statId]();
-                        if (label) then
-                            label = label:gsub("%-", "%%-")
-                            local s, e = text:find(label)
-                            if (s and s <= 11) then
-                                self:AddTrueStatValuesTooltip(tooltip, statId)
-                            end
+                        if(statId == CR_MASTERY and text ~= masteryName) then
+                            local label = extraStatLabelMap[statId]();
+                            self:HandleLabel(label, tooltip, statId, text)
                         end
                     end
                 end
@@ -168,4 +160,14 @@ function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
 
     tooltip:AddLine("\n")
     tooltip:Show()
+end
+
+function addon.tsv:HandleLabel(label, tooltip, statId, text)
+    if (label) then
+        label = label:gsub("%-", "%%-")
+        local s, e = text:find(label)
+        if (s and s <= 11) then
+            self:AddTrueStatValuesTooltip(tooltip, statId)
+        end
+    end
 end
