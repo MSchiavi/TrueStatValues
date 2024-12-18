@@ -9,6 +9,7 @@
 ## IconTexture: Interface\Addons\TrueStatvalues\TrueStatvalues
 
 embeds.xml
+Locales\Locales.xml
 
 Core.lua
 TrueStatValues.lua
