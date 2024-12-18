@@ -1,6 +1,6 @@
 local name,addon = ...;
 local tsv = LibStub("AceAddon-3.0"):NewAddon("TrueStatValues", "AceConsole-3.0", "AceEvent-3.0")
-
+local L = LibStub("AceLocale-3.0"):GetLocale("TrueStatValues")
 
 
 --[[----------------------------------------------------------------------------
@@ -31,25 +31,25 @@ Options
 ------------------------------------------------------------------------------]]
 local _TEST=nil;
 local options = {
-	name = "True Stat Values",
+	name = L["True Stat Values"],
 	handler = tsv,
 	childGroups = "tab",
 	type = "group",
 	args = {
 		optionsTab = { 
-			name = "Options",
+			name = L["Options"],
 			type = "group",
 			order = 1,
 			args = {
 				headerSettings = {
-					name = "True Stat Value Settings",
+					name = L["True Stat Value Settings"],
 					desc = "",
 					type = "header",
 					order = 1
 				},
 				showStatTooltips = {
-					name = "Stat Tooltips",
-					desc = "When checked, displays True Stat Rating information on Secondary-Stat tooltips.",
+					name = L["Stat Tooltips"],
+					desc = L["When checked, displays True Stat Rating information on Secondary-Stat tooltips."],
 					type = "toggle",
 					order = 3,
 					width = "full",
@@ -57,8 +57,8 @@ local options = {
 					set = function(info,val) tsv.db.global.showStatTooltips = val; end
 				},
 				showItemTooltips = {
-					name = "Item Tooltips",
-					desc = "When checked, displays True Stat Rating information on Item tooltips.",
+					name = L["Item Tooltips"],
+					desc = L["When checked, displays True Stat Rating information on Item tooltips."],
 					type = "toggle",
 					order = 5,
 					width = "full",
@@ -66,7 +66,7 @@ local options = {
 					set = function(info,val) tsv.db.global.showItemTooltips = val; end
                 },
 				fontColor = {
-					name = "Font Color",
+					name = L["Font Color"],
 					type = "color",
 					order = 7,
 					get = function(info) return tsv.db.global.fontColor.r,tsv.db.global.fontColor.g,tsv.db.global.fontColor.b,tsv.db.global.fontColor.a end,
@@ -79,7 +79,7 @@ local options = {
 	}
 }
 local BlizOptionsTable = {
-	name = "True Stat Values",
+	name = L["True Stat Values"],
 	type = "group",
 	args = options
 }
