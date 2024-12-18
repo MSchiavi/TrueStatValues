@@ -1,4 +1,5 @@
 local name, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale("TrueStatValues")
 
 local function RGBPercToHex(r, g, b)
     r = r <= 1 and r >= 0 and r or 0
@@ -141,15 +142,15 @@ function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
     local pctLabel = (statInfo.bracketPenalty > 0) and ("-" .. tostring(statInfo.bracketPenalty * 100) .. "%") or ("0%")
     local barLabel =
         tostring(statInfo.bracketRating) ..
-        "/" .. tostring(statInfo.bracketMaxRating) .. " [" .. pctLabel .. " penalty]"
+        "/" .. tostring(statInfo.bracketMaxRating) .. L[" ["] .. pctLabel .. L[" penalty]"]
     local r, g, b = addon.tsv.db.global.fontColor.r, addon.tsv.db.global.fontColor.g, addon.tsv.db.global.fontColor.b
 
     -- barLabel = "|cff0000ff"..barLabel.."|r";
     local lostRating = (statInfo.baseRating - statInfo.trueRating)
     lostRating = math.floor(0.005 + 100 * lostRating) / 100
 
-    tooltip:AddDoubleLine("True Rating:", statInfo.trueRating, r, g, b, r, g, b)
-    tooltip:AddDoubleLine("Lost Rating:", lostRating, r, g, b, r, g, b)
+    tooltip:AddDoubleLine(L["True Rating:"], statInfo.trueRating, r, g, b, r, g, b)
+    tooltip:AddDoubleLine(L["Lost Rating:"], lostRating, r, g, b, r, g, b)
     GameTooltip_ShowProgressBar(tooltip, 0, statInfo.bracketMaxRating, statInfo.bracketRating, barLabel)
 
     local frames = tooltip.insertedFrames
