@@ -1,7 +1,7 @@
 ## Interface: 110100
 ## Title: True Stat Values
 ## Author: .bastas (discord), tirain (discord), hinalover (discord)
-## Version: 1.4.4
+## Version: 1.4.5
 ## Notes: Show Secondary-Stat Diminishing Returns in Tooltips.
 ## Notes-zhCN: 在属性栏显示数值详细递减信息。
 ## DefaultState: Enabled
