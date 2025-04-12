@@ -76,6 +76,7 @@ local patterns = {
 local blackList = {
     ["Leeching Poison"] = true,
     ["Thief's Versatility"] = true,
+    ["Voodoo Mastery"] = true
 }
 
 function addon.tsv:OnTooltip(ev, tooltip, ...)
