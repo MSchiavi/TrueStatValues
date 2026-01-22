@@ -84,7 +84,7 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
         local tt1 = GameTooltipTextLeft1
         if (tt1) then
             local text = tt1:GetText()
-            if (text and not blackList[text]) then
+            if (not issecretvalue(text) and text and not blackList[text]) then
                 for statId, labelGenerator in pairs(statLabelMap) do
                     if (statEventMap[statId] == ev) then
                         local label = labelGenerator()
