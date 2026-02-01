@@ -110,7 +110,7 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
                 local textleft = "GameTooltipTextLeft" .. tostring(i)
                 if (_G[textleft] and _G[textleft].GetText) then
                     local text = _G[textleft]:GetText()
-                    if (text and text ~= "") then
+                    if (text and type(text) == "string" and not issecretvalue(text) and text ~= "") then
                         for statId, pattern in pairs(patterns) do
                             local amount = string.match(text, pattern)
                             if (amount) then
