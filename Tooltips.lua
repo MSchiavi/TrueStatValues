@@ -64,13 +64,13 @@ local extraStatEventMap = {
 }
 
 local patterns = {
-    [CR_MASTERY] = "%s([,0-9]+) " .. STAT_MASTERY,
-    [CR_CRIT_SPELL] = "%s([,0-9]+) " .. STAT_CRITICAL_STRIKE,
-    [CR_VERSATILITY_DAMAGE_DONE] = "%s([,0-9]+) " .. STAT_VERSATILITY,
-    [CR_HASTE_SPELL] = "%s([,0-9]+) " .. STAT_HASTE,
-    [CR_LIFESTEAL] = "%s([,0-9]+) " .. STAT_LIFESTEAL,
-	[CR_AVOIDANCE] = "%s([,0-9]+) " .. STAT_AVOIDANCE,
-	[CR_SPEED] = "%s([,0-9]+) " .. STAT_SPEED
+    [CR_MASTERY] = {"%s([,0-9]+)%s*" .. STAT_MASTERY, STAT_MASTERY .. " by%s*([,0-9]+)"},
+    [CR_CRIT_SPELL] = {"%s([,0-9]+)%s*" .. STAT_CRITICAL_STRIKE, STAT_CRITICAL_STRIKE .. " by%s*([,0-9]+)"},
+    [CR_VERSATILITY_DAMAGE_DONE] = {"%s([,0-9]+)%s*" .. STAT_VERSATILITY, STAT_VERSATILITY .. " by%s*([,0-9]+)"},
+    [CR_HASTE_SPELL] = {"%s([,0-9]+)%s*" .. STAT_HASTE, STAT_HASTE .. " by%s*([,0-9]+)"},
+    [CR_LIFESTEAL] = {"%s([,0-9]+)%s*" .. STAT_LIFESTEAL, STAT_LIFESTEAL .. " by%s*([,0-9]+)"},
+	[CR_AVOIDANCE] = {"%s([,0-9]+)%s*" .. STAT_AVOIDANCE, STAT_AVOIDANCE .. " by%s*([,0-9]+)"},
+	[CR_SPEED] = {"%s([,0-9]+)%s*" .. STAT_SPEED, STAT_SPEED .. " by%s*([,0-9]+)"}
 }
 
 local blackList = {
@@ -111,21 +111,28 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
                 if (_G[textleft] and _G[textleft].GetText) then
                     local text = _G[textleft]:GetText()
                     if (text and type(text) == "string" and not issecretvalue(text) and text ~= "") then
-                        for statId, pattern in pairs(patterns) do
-                            local amount = string.match(text, pattern)
-                            if (amount) then
-                                local s, e = string.find(text, pattern)
-                                local trueAmount = self:GetTrueStatRatingAdded(statId, amount)
-                                local r, g, b =
-                                    addon.tsv.db.global.fontColor.r,
-                                    addon.tsv.db.global.fontColor.g,
-                                    addon.tsv.db.global.fontColor.b
-                                local hexStr = RGBPercToHex(r, g, b)
+                        -- Skip lines containing percentage signs (exclude percentage values)
+                        if (not string.find(text, "%%")) then
+                            for statId, patternTable in pairs(patterns) do
+                                local patternList = type(patternTable) == "table" and patternTable or {patternTable}
+                                for _, pattern in ipairs(patternList) do
+                                    local amount = string.match(text, pattern)
+                                    if (amount) then
+                                        local s, e = string.find(text, pattern)
+                                        local trueAmount = self:GetTrueStatRatingAdded(statId, amount)
+                                        local r, g, b =
+                                            addon.tsv.db.global.fontColor.r,
+                                            addon.tsv.db.global.fontColor.g,
+                                            addon.tsv.db.global.fontColor.b
+                                        local hexStr = RGBPercToHex(r, g, b)
 
-                                local trueText =
-                                    text:sub(1, e) ..
-                                    " |cff" .. hexStr .. "(" .. tostring(trueAmount) .. ")|r" .. text:sub(e + 1)
-                                _G[textleft]:SetText(trueText)
+                                        local trueText =
+                                            text:sub(1, e) ..
+                                            " |cff" .. hexStr .. "(" .. tostring(trueAmount) .. ")|r" .. text:sub(e + 1)
+                                        _G[textleft]:SetText(trueText)
+                                        break
+                                    end
+                                end
                             end
                         end
                     end
