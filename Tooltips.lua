@@ -158,15 +158,19 @@ function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
 
     tooltip:AddDoubleLine("True Rating:", statInfo.trueRating, r, g, b, r, g, b)
     tooltip:AddDoubleLine("Lost Rating:", lostRating, r, g, b, r, g, b)
-    GameTooltip_ShowProgressBar(tooltip, 0, statInfo.bracketMaxRating, statInfo.bracketRating, barLabel)
 
-    local frames = tooltip.insertedFrames
-    local frames_n = #frames
-    local insertedFrame = frames[frames_n]
+    if not InCombatLockdown() then 
+        GameTooltip_ShowProgressBar(tooltip, 0, statInfo.bracketMaxRating, statInfo.bracketRating, barLabel)
 
-    if (insertedFrame and insertedFrame.Bar) then
-        insertedFrame.Bar:SetStatusBarColor(r, g, b, 1)
+        local frames = tooltip.insertedFrames
+        local frames_n = #frames
+        local insertedFrame = frames[frames_n]
+
+        if (insertedFrame and insertedFrame.Bar) then
+            insertedFrame.Bar:SetStatusBarColor(r, g, b, 1)
+        end
     end
+
 
     tooltip:AddLine("\n")
     tooltip:Show()
