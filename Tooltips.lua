@@ -79,6 +79,58 @@ local blackList = {
     ["Voodoo Mastery"] = true
 }
 
+-- Custom progress bar to avoid taint from GameTooltip_ShowProgressBar/GameTooltip_InsertFrame
+local tsvBarFrame = nil
+local function TSV_ShowProgressBar(tooltip, min, max, value, barLabel, r, g, b)
+    if not tsvBarFrame then
+        tsvBarFrame = CreateFrame("Frame", "TSVProgressBarFrame", tooltip)
+        tsvBarFrame:SetHeight(18)
+
+        local bar = CreateFrame("StatusBar", nil, tsvBarFrame)
+        bar:SetAllPoints()
+        bar:SetStatusBarTexture("Interface\\Buttons\\WHITE8x8")
+        bar:SetStatusBarColor(1, 1, 1, 1)
+        tsvBarFrame.Bar = bar
+
+        local bg = bar:CreateTexture(nil, "BACKGROUND")
+        bg:SetAllPoints()
+        bg:SetColorTexture(0.1, 0.1, 0.1, 0.8)
+
+        local label = bar:CreateFontString(nil, "OVERLAY", "GameTooltipText")
+        label:SetPoint("CENTER", bar, "CENTER", 0, 0)
+        tsvBarFrame.Label = label
+    end
+
+    tsvBarFrame:SetParent(tooltip)
+    tsvBarFrame:SetFrameStrata(tooltip:GetFrameStrata())
+    tsvBarFrame:SetFrameLevel(tooltip:GetFrameLevel() + 1)
+    tsvBarFrame.Bar:SetMinMaxValues(min, max)
+    tsvBarFrame.Bar:SetValue(value)
+    tsvBarFrame.Bar:SetStatusBarColor(r, g, b, 1)
+    tsvBarFrame.Label:SetText(barLabel)
+
+    -- Add a blank line to reserve space, then overlay our bar on top of it
+    tooltip:AddLine(" ")
+    tooltip:Show()
+
+    local numLines = tooltip:NumLines()
+    local lastLine = _G["GameTooltipTextLeft" .. numLines]
+    if lastLine then
+        local padding = 12
+        tsvBarFrame:ClearAllPoints()
+        tsvBarFrame:SetPoint("TOPLEFT", lastLine, "TOPLEFT", 0, 0)
+        tsvBarFrame:SetPoint("RIGHT", tooltip, "RIGHT", -padding, 0)
+        tsvBarFrame:Show()
+    end
+end
+
+-- Hide custom bar when tooltip hides
+GameTooltip:HookScript("OnHide", function()
+    if tsvBarFrame then
+        tsvBarFrame:Hide()
+    end
+end)
+
 function addon.tsv:OnTooltip(ev, tooltip, ...)
     if (addon.tsv.db.global.showStatTooltips) then
         local tt1 = GameTooltipTextLeft1
@@ -159,18 +211,7 @@ function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
     tooltip:AddDoubleLine("True Rating:", statInfo.trueRating, r, g, b, r, g, b)
     tooltip:AddDoubleLine("Lost Rating:", lostRating, r, g, b, r, g, b)
 
-    if not InCombatLockdown() then 
-        GameTooltip_ShowProgressBar(tooltip, 0, statInfo.bracketMaxRating, statInfo.bracketRating, barLabel)
-
-        local frames = tooltip.insertedFrames
-        local frames_n = #frames
-        local insertedFrame = frames[frames_n]
-
-        if (insertedFrame and insertedFrame.Bar) then
-            insertedFrame.Bar:SetStatusBarColor(r, g, b, 1)
-        end
-    end
-
+    TSV_ShowProgressBar(tooltip, 0, statInfo.bracketMaxRating, statInfo.bracketRating, barLabel, r, g, b)
 
     tooltip:AddLine("\n")
     tooltip:Show()
