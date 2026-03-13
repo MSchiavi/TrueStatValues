@@ -77,7 +77,9 @@ local blackList = {
     ["Leeching Poison"] = true,
     ["Thief's Versatility"] = true,
     ["Voodoo Mastery"] = true,
-	["预见精通"] = true
+	["预见精通"] = true,
+	["炼金精通"] = true,
+	["转化精通"] = true
 }
 
 -- Custom progress bar to avoid taint from GameTooltip_ShowProgressBar/GameTooltip_InsertFrame
