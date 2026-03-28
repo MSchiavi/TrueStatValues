@@ -102,7 +102,9 @@ local function TSV_ShowProgressBar(tooltip, min, max, value, barLabel, r, g, b)
     end
 
     tsvBarFrame:SetParent(tooltip)
-    tsvBarFrame:SetFrameStrata(tooltip:GetFrameStrata())
+    local strata = tooltip:GetFrameStrata()
+    if strata == "SECRET" then strata = "TOOLTIP" end
+    tsvBarFrame:SetFrameStrata(strata)
     tsvBarFrame:SetFrameLevel(tooltip:GetFrameLevel() + 1)
     tsvBarFrame.Bar:SetMinMaxValues(min, max)
     tsvBarFrame.Bar:SetValue(value)
