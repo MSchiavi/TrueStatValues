@@ -102,7 +102,7 @@ local function TSV_ShowProgressBar(tooltip, min, max, value, barLabel, r, g, b)
     end
 
     tsvBarFrame:SetParent(tooltip)
-    tsvBarFrame:SetFrameStrata(tooltip:GetFrameStrata())
+    tsvBarFrame:SetFrameStrata("TOOLTIP")
     tsvBarFrame:SetFrameLevel(tooltip:GetFrameLevel() + 1)
     tsvBarFrame.Bar:SetMinMaxValues(min, max)
     tsvBarFrame.Bar:SetValue(value)
