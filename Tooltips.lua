@@ -76,7 +76,13 @@ local patterns = {
 local blackList = {
     ["Leeching Poison"] = true,
     ["Thief's Versatility"] = true,
-    ["Voodoo Mastery"] = true
+    ["Voodoo Mastery"] = true,
+    ["Alchemical Mastery"] = true,
+    ["Metamorphic Mastery"] = true,
+	["闪避药剂"] = true, -- Delves
+	["预见精通"] = true,
+	["炼金精通"] = true,
+	["转化精通"] = true
 }
 
 -- Custom progress bar to avoid taint from GameTooltip_ShowProgressBar/GameTooltip_InsertFrame
