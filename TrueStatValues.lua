@@ -269,26 +269,28 @@ end
 
 
 function addon.tsv:RecalculateTrueStatRatings() 
-    addon.BaseCritRating = GetCombatRating(CR_CRIT_SPELL);
-    addon.BaseHasteRating = GetCombatRating(CR_HASTE_SPELL);
-    addon.BaseMasteryRating = GetCombatRating(CR_MASTERY);
-    addon.BaseVersatilityRating = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE);
-	addon.BaseLeechRating = GetCombatRating(CR_LIFESTEAL);
-	addon.BaseAvoidanceRating = GetCombatRating(CR_AVOIDANCE);
-	addon.BaseSpeedRating = GetCombatRating(CR_SPEED);
-    
-    addon.TrueStatInfo = addon.TrueStatInfo or {};
-    for statId,stat in pairs(statIdMap) do 
-        local true_rating, bracket_penalty, bracket_next_penalty, bracket_rating, bracket_max_rating = self:GetStatDiminishBracket(statId);
-        addon.TrueStatInfo[statId] = {
-            bracketPenalty = bracket_penalty,
-            bracketNextPenalty = bracket_next_penalty,
-            bracketRating = bracket_rating,
-            bracketMaxRating = bracket_max_rating,
-            trueRating = true_rating,
-            baseRating = addon[stat.rating],
-            conversionFactor = addon[stat.conversionFactor]
-        };
+    if not InCombatLockdown() then
+        addon.BaseCritRating = GetCombatRating(CR_CRIT_SPELL);
+        addon.BaseHasteRating = GetCombatRating(CR_HASTE_SPELL);
+        addon.BaseMasteryRating = GetCombatRating(CR_MASTERY);
+        addon.BaseVersatilityRating = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE);
+        addon.BaseLeechRating = GetCombatRating(CR_LIFESTEAL);
+        addon.BaseAvoidanceRating = GetCombatRating(CR_AVOIDANCE);
+        addon.BaseSpeedRating = GetCombatRating(CR_SPEED);
+        
+        addon.TrueStatInfo = addon.TrueStatInfo or {};
+        for statId,stat in pairs(statIdMap) do 
+            local true_rating, bracket_penalty, bracket_next_penalty, bracket_rating, bracket_max_rating = self:GetStatDiminishBracket(statId);
+            addon.TrueStatInfo[statId] = {
+                bracketPenalty = bracket_penalty,
+                bracketNextPenalty = bracket_next_penalty,
+                bracketRating = bracket_rating,
+                bracketMaxRating = bracket_max_rating,
+                trueRating = true_rating,
+                baseRating = addon[stat.rating],
+                conversionFactor = addon[stat.conversionFactor]
+            };
+        end
     end
 end
 
