@@ -176,18 +176,20 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
                                 for _, pattern in ipairs(patternList) do
                                     local amount = string.match(text, pattern)
                                     if (amount) then
-                                        local s, e = string.find(text, pattern)
                                         local trueAmount = self:GetTrueStatRatingAdded(statId, amount)
-                                        local r, g, b =
-                                            addon.tsv.db.global.fontColor.r,
-                                            addon.tsv.db.global.fontColor.g,
-                                            addon.tsv.db.global.fontColor.b
-                                        local hexStr = RGBPercToHex(r, g, b)
+                                        if trueAmount ~= nil then
+                                            local s, e = string.find(text, pattern)
+                                            local r, g, b =
+                                                addon.tsv.db.global.fontColor.r,
+                                                addon.tsv.db.global.fontColor.g,
+                                                addon.tsv.db.global.fontColor.b
+                                            local hexStr = RGBPercToHex(r, g, b)
 
-                                        local trueText =
-                                            text:sub(1, e) ..
-                                            " |cff" .. hexStr .. "(" .. tostring(trueAmount) .. ")|r" .. text:sub(e + 1)
-                                        _G[textleft]:SetText(trueText)
+                                            local trueText =
+                                                text:sub(1, e) ..
+                                                " |cff" .. hexStr .. "(" .. tostring(trueAmount) .. ")|r" .. text:sub(e + 1)
+                                            _G[textleft]:SetText(trueText)
+                                        end
                                         break
                                     end
                                 end
@@ -203,7 +205,15 @@ function addon.tsv:OnTooltip(ev, tooltip, ...)
 end
 
 function addon.tsv:AddTrueStatValuesTooltip(tooltip, statId)
-    local statInfo = addon.TrueStatInfo[statId]
+    local statInfo = addon.TrueStatInfo and addon.TrueStatInfo[statId]
+    if not statInfo
+        or statInfo.bracketPenalty   == nil
+        or statInfo.bracketRating    == nil
+        or statInfo.bracketMaxRating == nil
+        or statInfo.baseRating       == nil
+        or statInfo.trueRating       == nil then
+        return
+    end
     local pctLabel = (statInfo.bracketPenalty > 0) and ("-" .. tostring(statInfo.bracketPenalty * 100) .. "%") or ("0%")
     local barLabel =
         tostring(statInfo.bracketRating) ..
