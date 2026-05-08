@@ -275,7 +275,9 @@ end
 
 
 function addon.tsv:RecalculateTrueStatRatings()
-    if InCombatLockdown() then return end
+    -- C_Secrets API function will return true for all scenarios where player stats are secrets, not just limited to combat lockdown.
+    -- Prevents having to check if any stat is a secret outside of combat situations (M+, PVP, etc.)
+    if C_Secrets.ShouldUnitStatsBeSecret("player") then return end
 
     local crit    = GetCombatRating(CR_CRIT_SPELL);
     local haste   = GetCombatRating(CR_HASTE_SPELL);
@@ -284,14 +286,6 @@ function addon.tsv:RecalculateTrueStatRatings()
     local leech   = GetCombatRating(CR_LIFESTEAL);
     local avoid   = GetCombatRating(CR_AVOIDANCE);
     local speed   = GetCombatRating(CR_SPEED);
-
-    -- GetCombatRating may return secret values even when InCombatLockdown is false;
-    -- bail rather than poison addon state. Next COMBAT_RATING_UPDATE will retry.
-    if issecretvalue(crit) or issecretvalue(haste) or issecretvalue(mastery)
-        or issecretvalue(vers) or issecretvalue(leech)
-        or issecretvalue(avoid) or issecretvalue(speed) then
-        return;
-    end
 
     addon.BaseCritRating        = crit;
     addon.BaseHasteRating       = haste;
