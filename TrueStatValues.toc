@@ -1,4 +1,4 @@
-## Interface: 120007
+## Interface: 120100
 ## Title: True Stat Values
 ## Author: .bastas (discord), tirain (discord), hinalover (discord)
 ## Version: @project-version@
